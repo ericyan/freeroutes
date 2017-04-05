@@ -19,6 +19,9 @@ ipv4-address-space.csv:
 bogon.ipv4.prefixes:
 	wget https://www.team-cymru.org/Services/Bogons/bogon-bn-nonagg.txt -O bogon.ipv4.prefixes
 
+china.ipv4.prefixes:
+	wget https://raw.githubusercontent.com/17mon/china_ip_list/master/china_ip_list.txt -O china.ipv4.prefixes
+
 clean:
 	rm -rf ipv4-address-space.csv *.prefixes
 
