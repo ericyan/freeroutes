@@ -33,12 +33,11 @@ china.ipv4.patterns: china.ipv4.prefixes apac.ipv4.patterns
 		| cut -d '|' -f 2 | sed 's/[ \t]//g' > china.ipv4.patterns
 
 china_non-apnic.ipv4.prefixes: china.ipv4.patterns
-	grep china.ipv4.prefixes -f china.ipv4.patterns \
-		| grep -v -f china_non-apnic.ipv4.ignore > china_non-apnic.ipv4.prefixes
+	grep china.ipv4.prefixes -f china.ipv4.patterns > china_non-apnic.ipv4.prefixes
 
 exceptions.ipv4.prefixes: bogon.ipv4.prefixes china_non-apnic.ipv4.prefixes
 	cat bogon.ipv4.prefixes china_non-apnic.ipv4.prefixes noroute.ipv4.prefixes \
-		| aggregate > exceptions.ipv4.prefixes
+		| grep -v -f exceptions.ipv4.ignore | aggregate > exceptions.ipv4.prefixes
 
 clean:
 	rm -rf ipv4-address-space.csv *.prefixes *.patterns
