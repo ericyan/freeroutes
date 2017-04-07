@@ -1,5 +1,6 @@
 ipv4.prefixes: amer.ipv4.prefixes emea.ipv4.prefixes exceptions.ipv4.prefixes
-	cat amer.ipv4.prefixes emea.ipv4.prefixes | aggregate > ipv4.prefixes
+	cat amer.ipv4.prefixes emea.ipv4.prefixes | aggregate > /tmp/routes.ipv4.prefixes
+	ruby ./bin/compile -r /tmp/routes.ipv4.prefixes  -n exceptions.ipv4.prefixes > ipv4.prefixes
 
 amer.ipv4.prefixes: ipv4-address-space.csv
 	grep -e whois.arin.net -e whois.lacnic.net ipv4-address-space.csv | cut -d ',' -f 1 \
