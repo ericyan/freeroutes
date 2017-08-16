@@ -20,8 +20,16 @@ class CIDR < IPAddr
     exclude_a([self], subnet)
   end
 
+  def first
+    self.to_range.begin
+  end
+
+  def last
+    self.to_range.end
+  end
+
   def contain?(prefix)
-    self.to_range.begin <= prefix.to_range.begin and self.to_range.end >= prefix.to_range.end
+    self.first <= prefix.first and self.last >= prefix.last
   end
 
   def to_s
