@@ -5,19 +5,24 @@ require_relative '../lib/cidr'
 
 options = {}
 OptionParser.new do |opts|
-  opts.banner = "Usage: compile -r [ROUTE_FILE] -n [NOROUTE_FILE]"
+  opts.banner = "Usage: compile -r ROUTE_FILES -n NOROUTE_FILES"
 
-  opts.on("-r", "--route /path/to/file", "Routes that should be included") do |v|
-    options[:route_file] = v
+  opts.on("-r", "--route FILE1,FILE2...", Array, "Routes that should be included") do |v|
+    options[:route_files] = v
   end
 
-  opts.on("-n", "--noroute /path/to/file", "Routes that must be excluded") do |v|
-    options[:noroute_file] = v
+  opts.on("-n", "--noroute FILE1,FILE2...", Array, "Routes that must be excluded") do |v|
+    options[:noroute_files] = v
   end
 end.parse!
 
-routes = File.open(options[:route_file], 'r').each_line.map { |prefix| CIDR.new(prefix.chomp) }
-noroutes = File.open(options[:noroute_file], 'r').each_line.map { |prefix| CIDR.new(prefix.chomp) }
+
+def read_routes(file)
+  File.open(file, 'r').each_line.map { |prefix| CIDR.new(prefix.chomp) }
+end
+
+routes = options[:route_files].map { |file| read_routes(file) }.flatten
+noroutes = options[:noroute_files].map { |file| read_routes(file) }.flatten
 
 noroutes.each do |subnet|
   routes = routes.map do |network|
