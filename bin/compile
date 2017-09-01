@@ -30,4 +30,4 @@ noroutes.each do |subnet|
   end.flatten
 end
 
-routes.flatten.each { |p| puts p }
+puts CIDR.aggregate(routes.flatten).sort!
