@@ -1,6 +1,5 @@
 ipv4.prefixes: amer.ipv4.prefixes emea.ipv4.prefixes exceptions.ipv4.prefixes
-	cat amer.ipv4.prefixes emea.ipv4.prefixes | aggregate > /tmp/routes.ipv4.prefixes
-	ruby ./bin/compile -r /tmp/routes.ipv4.prefixes  -n exceptions.ipv4.prefixes > ipv4.prefixes
+	ruby ./bin/compile -r amer.ipv4.prefixes emea.ipv4.prefixes -n exceptions.ipv4.prefixes > ipv4.prefixes
 
 amer.ipv4.prefixes: ipv4-address-space.csv
 	grep -e whois.arin.net -e whois.lacnic.net ipv4-address-space.csv | cut -d ',' -f 1 \
@@ -38,7 +37,7 @@ china_non-apnic.ipv4.prefixes: china.ipv4.patterns
 
 exceptions.ipv4.prefixes: bogon.ipv4.prefixes china_non-apnic.ipv4.prefixes
 	cat bogon.ipv4.prefixes china_non-apnic.ipv4.prefixes noroute.ipv4.prefixes \
-		| grep -v -f exceptions.ipv4.ignore | aggregate > exceptions.ipv4.prefixes
+		| grep -v -f exceptions.ipv4.ignore > exceptions.ipv4.prefixes
 
 clean:
 	rm -rf ipv4-address-space.csv *.prefixes *.patterns

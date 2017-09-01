@@ -10,8 +10,8 @@ routing policies. It divides the [IPv4 address space] into four regions:
 
 ## Usage
 
-First of all, make sure `ruby` and `aggregate` are installed. On Debian,\
-this can be done by `sudo apt-get install ruby aggregate`.
+First of all, make sure `ruby` and `make` are installed. On Debian, this
+can be done by `sudo apt-get install ruby make`.
 
 You can now `make` a routing table. By default, it will aggregate routes
 to AMER and EMEA regions and put the result in `ipv4.prefixes`. Modify
