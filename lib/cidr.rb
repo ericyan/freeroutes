@@ -58,9 +58,22 @@ class CIDR < IPAddr
       end
     end
 
-    @slots.map.with_index do |slot, i|
+    results = @slots.map.with_index do |slot, i|
       slot.map { |p| p.mask(32-i) }
     end.flatten
+
+    # Remove result if its supernet presents
+    results.delete_if do |current|
+      has_supernet = false
+      results.each do |prefix|
+        next if current.eql? prefix
+        if prefix.contain? current
+          has_supernet = true
+          break
+        end
+      end
+      has_supernet
+    end
   end
 
   private
