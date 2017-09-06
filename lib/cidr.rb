@@ -82,6 +82,8 @@ class CIDR < IPAddr
     network.map do |range|
       if range.contain?(subnet) and !range.eql?(subnet)
         exclude_a(range.subnets(range.prefix+1), subnet)
+      elsif subnet.contain?(network)
+        return []
       else
         range
       end
