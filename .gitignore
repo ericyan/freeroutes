@@ -1,7 +1,6 @@
 data/ipv4-address-space.csv
-china.ipv4.prefixes
-china_non-apnic.ipv4.prefixes
+china.prefixes
+china_non-apac.prefixes
 ipv4.prefixes
-apac.ipv4.patterns
 china.ipv4.patterns
 exceptions.ipv4.prefixes
